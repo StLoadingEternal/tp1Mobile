@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/joueurs_item"
+        android:title="Joueurs" />
+    <item android:id="@+id/presence_item"
+        android:title="Présence" />
+    <item android:id="@+id/calendrier_item"
+        android:title="Calendrier" />
+    <item android:id="@+id/partenaires_item"
+        android:title="Nos partenaires" />
+    <item android:id="@+id/sondage_item"
+        android:title="Sondage" />
+</menu>
