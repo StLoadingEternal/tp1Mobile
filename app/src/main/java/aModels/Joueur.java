@@ -1,4 +1,4 @@
-package com.climoilou.myapplication;
+package aModels;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -10,7 +10,7 @@ public class Joueur implements Parcelable {
     private String nom;
     private String prenom;
     private String addresseCourriel;
-
+    private String contact;
 
     public static final Creator<Joueur> CREATOR = new Creator<Joueur>() {
         @Override
@@ -24,26 +24,24 @@ public class Joueur implements Parcelable {
         }
     };
 
-    public Joueur(String nom, String prenom, String addresseCourriel) {
+    public Joueur(String nom, String prenom, String addresseCourriel, String contact) {
         this.nom = nom;
         this.prenom = prenom;
         this.addresseCourriel = addresseCourriel;
+        this.contact = contact;
     }
 
     protected Joueur(Parcel in) {
         nom = in.readString();
         prenom = in.readString();
         addresseCourriel = in.readString();
+        contact = in.readString();
     }
 
 
     @Override
     public String toString() {
-        return "Joueur{" +
-                "nom='" + nom + '\'' +
-                ", prenom='" + prenom + '\'' +
-                ", addresseCourriel='" + addresseCourriel + '\'' +
-                '}';
+        return nom + " " + prenom;
     }
 
     public String getNom() {
@@ -66,6 +64,10 @@ public class Joueur implements Parcelable {
         return addresseCourriel;
     }
 
+    public String getContact() {
+        return contact;
+    }
+
     public void setAddresseCourriel(String addresseCourriel) {
         this.addresseCourriel = addresseCourriel;
     }
@@ -80,6 +82,7 @@ public class Joueur implements Parcelable {
         parcel.writeString(this.nom);
         parcel.writeString(this.prenom);
         parcel.writeString(this.addresseCourriel);
+        parcel.writeString(this.contact);
 
     }
 }

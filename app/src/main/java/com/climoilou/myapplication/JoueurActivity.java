@@ -5,20 +5,18 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import AdaptatersView.JoueurAdapter;
+import aModels.Joueur;
 
 public class JoueurActivity extends AppCompatActivity {
 
@@ -48,17 +46,16 @@ public class JoueurActivity extends AppCompatActivity {
             }
         }
         //ArrayList<Joueur> playersList = new ArrayList<>(Arrays.asList(playersTab));
+        //ListAdapter adapter = new ArrayAdapter<Joueur>(this, android.R.layout.simple_list_item_1, playersList);
 
-        ArrayList<String> car = new ArrayList<>();
-        for (Joueur joueur : playersTab) {
-            String ligne = joueur.getNom() + " " + joueur.getPrenom() + " - " + joueur.getAddresseCourriel();
-            car.add(ligne);
-        }
-
-        ListAdapter adapter = new ArrayAdapter<String>(this, R.layout.joueurs_listview, car);
-
+        JoueurAdapter adapter = new JoueurAdapter(this, playersTab);
         ListView listView = (ListView) findViewById(R.id.liste);
         listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener( (parent, view, position, id) -> {
+            Joueur joueur = (Joueur) parent.getItemAtPosition(position);//Lancer une exception peut-être
+            new AlertDialog.Builder(this).setTitle("Contact du joueur").setMessage("Le numéro de téléphone est :" + joueur.getContact()).show();
+        });
     }
 
     @Override
@@ -67,31 +64,8 @@ public class JoueurActivity extends AppCompatActivity {
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        int id = item.getItemId();
 
-        if (id == R.id.presence_item) {
-            Intent intent = new Intent(this, PresenceActivity.class);
-            startActivity(intent);
-            return true;
-        } else if (id == R.id.calendrier_item) {
-            Intent intent = new Intent(this, CalendrierActivity.class);
-            startActivity(intent);
-            return true;
-        } else if (id == R.id.partenaires_item) {
-            Intent intent = new Intent(this, PartenairesActivity.class);
-            startActivity(intent);
-            return true;
-        } else if (id == R.id.sondage_item) {
-            Intent intent = new Intent(this, SondageActivity.class);
-            startActivity(intent);
-            return true;
-        } else {
-            return super.onOptionsItemSelected(item);
-        }
-    }
 
 }
 
