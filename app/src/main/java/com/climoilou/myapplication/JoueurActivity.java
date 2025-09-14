@@ -35,6 +35,7 @@ public class JoueurActivity extends AppCompatActivity {
         Toolbar myToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
 
+        //Récupération des données passées à l'intent
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             Parcelable[] tab = extras.getParcelableArray("joueurs_tab");
@@ -47,15 +48,18 @@ public class JoueurActivity extends AppCompatActivity {
         //ArrayList<Joueur> playersList = new ArrayList<>(Arrays.asList(playersTab));
         //ListAdapter adapter = new ArrayAdapter<Joueur>(this, android.R.layout.simple_list_item_1, playersList);
 
+        //Adapter personnalisé joueur qu'on apllique à la liste view
         JoueurAdapter adapter = new JoueurAdapter(this, playersTab);
         ListView listView = findViewById(R.id.listeJoueur);
         listView.setAdapter(adapter);
 
+        //Affiche d'une alerte d'information lorsqu'on clique sur un joueur de la liste
         listView.setOnItemClickListener( (parent, view, position, id) -> {
             Joueur joueur = (Joueur) parent.getItemAtPosition(position);//Lancer une exception peut-être
             new AlertDialog.Builder(this).setTitle("Contact du joueur").setMessage("Le numéro de téléphone est :" + joueur.getContact()).show();
         });
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

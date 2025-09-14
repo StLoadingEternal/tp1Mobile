@@ -36,6 +36,7 @@ public class CalendrierActivity extends AppCompatActivity {
         Toolbar myToolbar = findViewById(R.id.toolbar2);
         setSupportActionBar(myToolbar);
 
+        //récupération des données passées à l'intent
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             Parcelable[] tab_a = extras.getParcelableArray("activites_tab");
@@ -45,6 +46,7 @@ public class CalendrierActivity extends AppCompatActivity {
             }
         }
 
+        //Adaptater personnalisé pour la listView des calendrier
         CalendrierAdaptater adapter = new CalendrierAdaptater(this, activitiesTab);
         ListView listView = findViewById(R.id.listeCalendrier);
         listView.setAdapter(adapter);

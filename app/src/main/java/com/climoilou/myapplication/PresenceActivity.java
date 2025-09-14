@@ -45,9 +45,11 @@ public class PresenceActivity extends AppCompatActivity {
             return insets;
         });
 
+        //La majorité des toolbar ont le même ID, Changer?
         Toolbar myToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
 
+        //récupérations des données sur les activités et les joueurs
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             Parcelable[] tab_j = extras.getParcelableArray("joueurs_tab");
@@ -64,6 +66,7 @@ public class PresenceActivity extends AppCompatActivity {
 
         }
 
+        //Mise en place des adaptateurs pour l'affichage du spinner
         ArrayAdapter<Joueur> adapterP = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, playersTab );
         ArrayAdapter<Activite> adapterA = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, activitiesTab );
 
@@ -71,24 +74,29 @@ public class PresenceActivity extends AppCompatActivity {
         adapterP.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         //on peut utiliser des binding à la place
+        //Les différents éléments de notre vue
         spinnerPlayer = findViewById(R.id.spinnerPlayer);
         spinnerActivity = findViewById(R.id.spinnerActivity);
         activiteText = findViewById(R.id.activiteText);
         nombrePresence = findViewById(R.id.nombrePresence);
         radioButton = findViewById(R.id.radioButton);
 
+        //Configuration des deux spinner
         spinnerPlayer.setAdapter(adapterP);
         spinnerActivity.setAdapter(adapterA);
 
+        //Affichage de l'interface au chargement du context
         mettreAjourBouton();
         mettreAjourNomActivite();
         mettreAjourNombrePresence();
 
+        //Comportements lorsqu'on clique sur le radio button. Il semble qu'on ne peut plus le décocher après.
         radioButton.setOnClickListener(v -> {
             clickBouton();
             mettreAjourNombrePresence();
         });
 
+        //Comportements lorsqu'on choisi un item du spinner des joueurs
         spinnerPlayer.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -101,6 +109,7 @@ public class PresenceActivity extends AppCompatActivity {
             }
         });
 
+        //Comportements lorsqu'on choisi un item du spinner des activités
         spinnerActivity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -118,7 +127,7 @@ public class PresenceActivity extends AppCompatActivity {
     }
 
     /**
-     *
+     *  Change le nombre de présences , à une activité, affiché dans l'interface en fonction des évènements
      */
     private void mettreAjourNombrePresence() {
         int nombre = getActiviteSelectione().getParticipants().size();
@@ -126,7 +135,8 @@ public class PresenceActivity extends AppCompatActivity {
     }
 
     /**
-     *
+     *  Ajoute le joueur sélectionné dans la liste de participants de l'activité sélectionnée.
+     *  Notifie ensuite qu'il y'a eu un changement dans les données pour metttre à jour l'interface
      */
     private void clickBouton() {
 
@@ -139,8 +149,8 @@ public class PresenceActivity extends AppCompatActivity {
     }
 
     /**
-     *
-     * @return
+     * Retourne l'activité sélctionnée
+     * @return Activite
      */
     private Activite getActiviteSelectione() {
         //Même reférence
@@ -148,22 +158,22 @@ public class PresenceActivity extends AppCompatActivity {
     }
 
     /**
-     *
-     * @return
+     * Retourne le joueur sélectionné
+     * @return Joueur
      */
     private Joueur getJoueurSelectionne() {
         return (Joueur) spinnerPlayer.getSelectedItem();
     }
 
     /**
-     *
+     *  Change l'état du bouton en fonction de l'activité et du joueur choisi
      */
     private void mettreAjourBouton() {
         radioButton.setChecked(getActiviteSelectione().getParticipants().contains(getJoueurSelectionne()));
     }
 
     /**
-     *
+     *  Change le nom d''activité affiché dans le textView en fonction de l'activité choisie.
      */
     private void mettreAjourNomActivite() {
         activiteText.setText(getActiviteSelectione().getTitre());
