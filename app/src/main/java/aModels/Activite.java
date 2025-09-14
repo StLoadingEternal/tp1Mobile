@@ -2,17 +2,24 @@ package aModels;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.ArraySet;
 
 import androidx.annotation.NonNull;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 public class Activite implements Parcelable {
 
-    public String date;
-    public String titre;
-    public String lieu;
+    private String date;
+    private String titre;
+    private String lieu;
     public static enum Stade {DOMICILE, EXTERIEUR};
-    public Stade stade;
-    public int confirmation;
+    private Stade stade;
+    private int confirmation;
+    private Set<Joueur> participants = new HashSet<>();
 
     public Activite(String date, String titre, String lieu, Stade stade, int confirmation) {
         this.date = date;
@@ -60,6 +67,14 @@ public class Activite implements Parcelable {
 
     public int getConfirmation() {
         return confirmation;
+    }
+
+    public Set<Joueur> getParticipants() {
+        return participants;
+    }
+
+    public void setParticipants(Set<Joueur> participants) {
+        this.participants = participants;
     }
 
     public void setDate(String date) {

@@ -23,7 +23,7 @@
             android:theme="?attr/actionBarTheme" />
 
         <ListView
-            android:id="@+id/liste"
+            android:id="@+id/listeJoueur"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>

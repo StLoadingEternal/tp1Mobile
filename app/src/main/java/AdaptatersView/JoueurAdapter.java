@@ -14,13 +14,13 @@ public class JoueurAdapter extends BaseAdapter {
 
 
     Context context;
-    Joueur players[];
+    Joueur[] players;
     LayoutInflater inflater;
 
     public JoueurAdapter(Context context, Joueur[] players) {
         this.context = context;
         this.players = players;
-        inflater = (LayoutInflater.from(context));
+        inflater = LayoutInflater.from(context);
     }
 
     @Override

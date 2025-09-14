@@ -44,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
     };
 
 
+    //La navigation se fait seulement de la vue main vers les autres vues pour le moment. Il faut aussi garder les modifications en mémoire. Ajout de DOC
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
             return true;
         } else if (id == R.id.calendrier_item) {
             Intent intent = new Intent(this, CalendrierActivity.class);
+            intent.putExtra("activites_tab", activites);
             startActivity(intent);
             return true;
         } else if (id == R.id.partenaires_item) {

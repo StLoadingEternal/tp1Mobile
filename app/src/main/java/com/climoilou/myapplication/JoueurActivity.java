@@ -1,13 +1,10 @@
 package com.climoilou.myapplication;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.ListView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -22,6 +19,7 @@ public class JoueurActivity extends AppCompatActivity {
 
     Joueur[] playersTab;
 
+    //La navigation se fait seulement de la vue main vers les autres vues pour le moment. Il faut aussi garder les modifications en mémoire. Ajout de DOC
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -34,7 +32,7 @@ public class JoueurActivity extends AppCompatActivity {
             return insets;
         });
 
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar myToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
 
         Bundle extras = getIntent().getExtras();
@@ -45,11 +43,12 @@ public class JoueurActivity extends AppCompatActivity {
                 playersTab[i] = (Joueur) tab[i];
             }
         }
+
         //ArrayList<Joueur> playersList = new ArrayList<>(Arrays.asList(playersTab));
         //ListAdapter adapter = new ArrayAdapter<Joueur>(this, android.R.layout.simple_list_item_1, playersList);
 
         JoueurAdapter adapter = new JoueurAdapter(this, playersTab);
-        ListView listView = (ListView) findViewById(R.id.liste);
+        ListView listView = findViewById(R.id.listeJoueur);
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener( (parent, view, position, id) -> {
@@ -63,8 +62,6 @@ public class JoueurActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.options_menu, menu);
         return true;
     }
-
-
 
 
 }

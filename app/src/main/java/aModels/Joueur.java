@@ -5,6 +5,8 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
+import java.util.Objects;
+
 public class Joueur implements Parcelable {
 
     private String nom;
@@ -38,6 +40,17 @@ public class Joueur implements Parcelable {
         contact = in.readString();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Joueur joueur = (Joueur) o;
+        return Objects.equals(contact, joueur.contact);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(contact);
+    }
 
     @Override
     public String toString() {
@@ -64,12 +77,16 @@ public class Joueur implements Parcelable {
         return addresseCourriel;
     }
 
+    public void setAddresseCourriel(String addresseCourriel) {
+        this.addresseCourriel = addresseCourriel;
+    }
+
     public String getContact() {
         return contact;
     }
 
-    public void setAddresseCourriel(String addresseCourriel) {
-        this.addresseCourriel = addresseCourriel;
+    public void setContact(String contact) {
+        this.contact = contact;
     }
 
     @Override
