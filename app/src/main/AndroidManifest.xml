@@ -12,9 +12,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Tp1"
         tools:targetApi="31">
-        <activity android:name=".CalendrierActivity"/>
-        <activity android:name=".JoueurActivity"/>
-        <activity android:name=".PresenceActivity"/>
+        <activity
+            android:name=".SondageActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PartenairesActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Tp1" />
+        <activity android:name=".CalendrierActivity" />
+        <activity android:name=".JoueurActivity" />
+        <activity android:name=".PresenceActivity" />
         <activity
             android:name=".MainActivity"
             android:exported="true">
