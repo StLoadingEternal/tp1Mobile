@@ -3,8 +3,10 @@ package com.climoilou.myapplication;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ListView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -13,6 +15,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import AdaptatersView.CalendrierAdaptater;
+import Donnee.Data;
 import aModels.Activite;
 
 public class CalendrierActivity extends AppCompatActivity {
@@ -55,8 +58,12 @@ public class CalendrierActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.options_menu, menu);
-        return true;
+        return AppBar.onCreateOptionsMenu(this, menu);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        return AppBar.onOptionsItemSelected(item, this, Data.getJoueurs(), Data.getActivites())
+                || super.onOptionsItemSelected(item);
+    }
 }
