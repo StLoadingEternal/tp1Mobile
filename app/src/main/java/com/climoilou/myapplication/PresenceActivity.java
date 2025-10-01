@@ -19,6 +19,9 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.util.Arrays;
+import java.util.Optional;
+
 import Donnee.Data;
 import aModels.Activite;
 import aModels.Joueur;
@@ -38,7 +41,6 @@ public class PresenceActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.presences);
 
@@ -48,58 +50,35 @@ public class PresenceActivity extends AppCompatActivity {
             return insets;
         });
 
-        //La majorité des toolbar ont le même ID, Changer?
         Toolbar myToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
 
-        //récupérations des données sur les activités et les joueurs
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            Parcelable[] tab_j = extras.getParcelableArray("joueurs_tab");
-            playersTab = new Joueur[tab_j.length];
-            for (int i = 0; i < tab_j.length; i++) {
-                playersTab[i] = (Joueur) tab_j[i];
-            }
-
-            Parcelable[] tab_a = extras.getParcelableArray("activites_tab");
-            activitiesTab = new Activite[tab_a.length];
-            for (int i = 0; i < tab_a.length; i++) {
-                activitiesTab[i] = (Activite) tab_a[i];
-            }
-
-        }
-
-        //Mise en place des adaptateurs pour l'affichage du spinner
-        ArrayAdapter<Joueur> adapterP = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, playersTab );
-        ArrayAdapter<Activite> adapterA = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, activitiesTab );
-
-        adapterA.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        adapterP.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        //on peut utiliser des binding à la place
-        //Les différents éléments de notre vue
+        //on recupère les références sur nos widgets
         spinnerPlayer = findViewById(R.id.spinnerPlayer);
         spinnerActivity = findViewById(R.id.spinnerActivity);
         activiteText = findViewById(R.id.activiteText);
         nombrePresence = findViewById(R.id.nombrePresence);
         radioButton = findViewById(R.id.radioButton);
 
-        //Configuration des deux spinner
-        spinnerPlayer.setAdapter(adapterP);
-        spinnerActivity.setAdapter(adapterA);
-
-        //Affichage de l'interface au chargement du context
+        //Action à réaliser lorsque l'activité demarre
+        mettreEnPlacSpinners();
         mettreAjourBouton();
         mettreAjourNomActivite();
         mettreAjourNombrePresence();
+        definirListeners();
 
-        //Comportements lorsqu'on clique sur le radio button. Il semble qu'on ne peut plus le décocher après.
+    }
+
+    /**
+     * Definit les actions à réaliser en fonction des évènemenets
+     */
+    private void definirListeners(){
+
         radioButton.setOnClickListener(v -> {
             clickBouton();
             mettreAjourNombrePresence();
         });
 
-        //Comportements lorsqu'on choisi un item du spinner des joueurs
         spinnerPlayer.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -107,12 +86,9 @@ public class PresenceActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
+            public void onNothingSelected(AdapterView<?> parent) {}
         });
 
-        //Comportements lorsqu'on choisi un item du spinner des activités
         spinnerActivity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -122,11 +98,27 @@ public class PresenceActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
+            public void onNothingSelected(AdapterView<?> parent) {}
         });
+    }
 
+    /**
+     * Met en place les deux spinners de la vue à partir des données de Data
+     */
+    private void mettreEnPlacSpinners(){
+        // Accès direct aux données partagées, plus via Intent
+        playersTab = Data.getJoueurs();
+        activitiesTab = Data.getActivites();
+
+        // Mise en place des adaptateurs pour l'affichage du spinner
+        ArrayAdapter<Joueur> adapterP = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, playersTab);
+        ArrayAdapter<Activite> adapterA = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, activitiesTab);
+
+        adapterA.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapterP.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        spinnerPlayer.setAdapter(adapterP);
+        spinnerActivity.setAdapter(adapterA);
     }
 
     /**
@@ -134,6 +126,14 @@ public class PresenceActivity extends AppCompatActivity {
      */
     private void mettreAjourNombrePresence() {
         int nombre = getActiviteSelectione().getParticipants().size();
+
+        Optional<Activite> activiteTrouvee = Data.trouverActiviteParTitre(getActiviteSelectione().getTitre());
+        if (activiteTrouvee.isPresent()){
+            Activite activite = activiteTrouvee.get();
+
+        }
+
+        nombrePresence.setText(String.valueOf(nombre));
         nombrePresence.setText(String.valueOf(nombre));
     }
 
@@ -190,8 +190,8 @@ public class PresenceActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        return AppBar.onOptionsItemSelected(item, this, Data.getJoueurs(), Data.getActivites())
-                || super.onOptionsItemSelected(item);
+        return AppBar.onOptionsItemSelected(item, this) || super.onOptionsItemSelected(item);
     }
+
 
 }

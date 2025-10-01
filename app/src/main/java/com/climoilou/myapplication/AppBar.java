@@ -14,26 +14,19 @@ public class AppBar {
         return true;
     }
 
-    public static boolean onOptionsItemSelected(@NonNull MenuItem item, Activity activity,
-                                                Object joueurs, Object activites) {
-
+    public static boolean onOptionsItemSelected(@NonNull MenuItem item, Activity activity) {
         int id = item.getItemId();
-
 
         if (id == R.id.joueurs_item) {
             Intent intent = new Intent(activity, JoueurActivity.class);
-            intent.putExtra("joueurs_tab", (java.io.Serializable) joueurs);
             activity.startActivity(intent);
             return true;
         } else if (id == R.id.presence_item) {
             Intent intent = new Intent(activity, PresenceActivity.class);
-            intent.putExtra("joueurs_tab", (java.io.Serializable) joueurs);
-            intent.putExtra("activites_tab", (java.io.Serializable) activites);
             activity.startActivity(intent);
             return true;
         } else if (id == R.id.calendrier_item) {
             Intent intent = new Intent(activity, CalendrierActivity.class);
-            intent.putExtra("activites_tab", (java.io.Serializable) activites);
             activity.startActivity(intent);
             return true;
         } else if (id == R.id.partenaires_item) {
@@ -48,4 +41,5 @@ public class AppBar {
             return false;
         }
     }
+
 }

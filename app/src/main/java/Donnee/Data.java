@@ -1,5 +1,8 @@
 package Donnee;
 
+import java.util.Arrays;
+import java.util.Optional;
+
 import aModels.Activite;
 import aModels.Joueur;
 
@@ -25,6 +28,21 @@ public class Data {
             new Activite("2025-09-29 19:45", "Toronto Raptors vs Chicago Bulls", "Toronto", Activite.Stade.DOMICILE, 0),
             new Activite("2025-10-02 18:00", "Vancouver Whitecaps vs Seattle Sounders", "Vancouver", Activite.Stade.EXTERIEUR, 0)
     };
+
+
+    public static Optional<Activite> trouverActiviteParTitre(String titreRecherche) {
+        return Arrays.stream(activites)
+                .filter(a -> a.getTitre().equals(titreRecherche))
+                .findFirst();
+    }
+
+    public static void setJoueurs(Joueur[] joueurs) {
+        Data.joueurs = joueurs;
+    }
+
+    public static void setActivites(Activite[] activites) {
+        Data.activites = activites;
+    }
 
     public static Joueur[] getJoueurs() {
         return joueurs;

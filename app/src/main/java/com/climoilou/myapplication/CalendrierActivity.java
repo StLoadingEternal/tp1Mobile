@@ -26,7 +26,6 @@ public class CalendrierActivity extends AppCompatActivity {
     //La navigation se fait seulement de la vue main vers les autres vues pour le moment. Il faut aussi garder les modifications en mémoire. Ajout de DOC
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.calendrier);
 
@@ -39,21 +38,13 @@ public class CalendrierActivity extends AppCompatActivity {
         Toolbar myToolbar = findViewById(R.id.toolbar2);
         setSupportActionBar(myToolbar);
 
-        //récupération des données passées à l'intent
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            Parcelable[] tab_a = extras.getParcelableArray("activites_tab");
-            activitiesTab = new Activite[tab_a.length];
-            for (int i = 0; i < tab_a.length; i++) {
-                activitiesTab[i] = (Activite) tab_a[i];
-            }
-        }
+        // Récupérer directement depuis Data (pas depuis l'intent)
+        activitiesTab = Data.getActivites();
 
-        //Adaptater personnalisé pour la listView des calendrier
+        // Adaptater personnalisé pour la listView des calendrier
         CalendrierAdaptater adapter = new CalendrierAdaptater(this, activitiesTab);
         ListView listView = findViewById(R.id.listeCalendrier);
         listView.setAdapter(adapter);
-
     }
 
     @Override
@@ -63,7 +54,7 @@ public class CalendrierActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        return AppBar.onOptionsItemSelected(item, this, Data.getJoueurs(), Data.getActivites())
-                || super.onOptionsItemSelected(item);
+        return AppBar.onOptionsItemSelected(item, this) || super.onOptionsItemSelected(item);
     }
+
 }

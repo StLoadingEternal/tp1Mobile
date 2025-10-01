@@ -25,7 +25,6 @@ public class JoueurActivity extends AppCompatActivity {
     //La navigation se fait seulement de la vue main vers les autres vues pour le moment. Il faut aussi garder les modifications en mémoire. Ajout de DOC
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.joueurs);
 
@@ -38,30 +37,23 @@ public class JoueurActivity extends AppCompatActivity {
         Toolbar myToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
 
-        //Récupération des données passées à l'intent
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            Parcelable[] tab = extras.getParcelableArray("joueurs_tab");
-            playersTab = new Joueur[tab.length];
-            for (int i = 0; i < tab.length; i++) {
-                playersTab[i] = (Joueur) tab[i];
-            }
-        }
+        // Accès direct aux joueurs dans Data (plus via Intent)
+        playersTab = Data.getJoueurs();
 
-        //ArrayList<Joueur> playersList = new ArrayList<>(Arrays.asList(playersTab));
-        //ListAdapter adapter = new ArrayAdapter<Joueur>(this, android.R.layout.simple_list_item_1, playersList);
-
-        //Adapter personnalisé joueur qu'on apllique à la liste view
+        // Adapter personnalisé joueur qu'on applique à la liste view
         JoueurAdapter adapter = new JoueurAdapter(this, playersTab);
         ListView listView = findViewById(R.id.listeJoueur);
         listView.setAdapter(adapter);
 
-        //Affiche d'une alerte d'information lorsqu'on clique sur un joueur de la liste
-        listView.setOnItemClickListener( (parent, view, position, id) -> {
-            Joueur joueur = (Joueur) parent.getItemAtPosition(position);//Lancer une exception peut-être
-            new AlertDialog.Builder(this).setTitle("Contact du joueur").setMessage("Le numéro de téléphone est :" + joueur.getContact()).show();
+        listView.setOnItemClickListener((parent, view, position, id) -> {
+            Joueur joueur = (Joueur) parent.getItemAtPosition(position);
+            new AlertDialog.Builder(this)
+                    .setTitle("Contact du joueur")
+                    .setMessage("Le numéro de téléphone est : " + joueur.getContact())
+                    .show();
         });
     }
+
 
 
     @Override
@@ -71,9 +63,9 @@ public class JoueurActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        return AppBar.onOptionsItemSelected(item, this, Data.getJoueurs(), Data.getActivites())
-                || super.onOptionsItemSelected(item);
+        return AppBar.onOptionsItemSelected(item, this) || super.onOptionsItemSelected(item);
     }
+
 
 
 }

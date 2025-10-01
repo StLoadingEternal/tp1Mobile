@@ -68,9 +68,9 @@ public class PartenairesActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        return AppBar.onOptionsItemSelected(item, this, Data.getJoueurs(), Data.getActivites())
-                || super.onOptionsItemSelected(item);
+        return AppBar.onOptionsItemSelected(item, this) || super.onOptionsItemSelected(item);
     }
+
 
 
 
