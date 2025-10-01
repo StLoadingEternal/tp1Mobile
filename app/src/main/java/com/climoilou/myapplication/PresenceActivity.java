@@ -74,11 +74,13 @@ public class PresenceActivity extends AppCompatActivity {
      */
     private void definirListeners(){
 
+        //radioBouton listener
         radioButton.setOnClickListener(v -> {
             clickBouton();
             mettreAjourNombrePresence();
         });
 
+        //spinner des joueurs listener
         spinnerPlayer.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -89,6 +91,7 @@ public class PresenceActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parent) {}
         });
 
+        //spinner des activités listener
         spinnerActivity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -122,19 +125,18 @@ public class PresenceActivity extends AppCompatActivity {
     }
 
     /**
-     *  Change le nombre de présences , à une activité, affiché dans l'interface en fonction des évènements
+     *  Change le nombre de présences d'une activité affichée dans l'interface en fonction des évènements. Met à jour aussi les DATAS
      */
     private void mettreAjourNombrePresence() {
         int nombre = getActiviteSelectione().getParticipants().size();
 
+        //Met à jour DATA
         Optional<Activite> activiteTrouvee = Data.trouverActiviteParTitre(getActiviteSelectione().getTitre());
         if (activiteTrouvee.isPresent()){
             Activite activite = activiteTrouvee.get();
 
         }
-
-        nombrePresence.setText(String.valueOf(nombre));
-        nombrePresence.setText(String.valueOf(nombre));
+        nombrePresence.setText(String.valueOf(nombre));//Change le nombre dans l'interface
     }
 
     /**
@@ -143,8 +145,10 @@ public class PresenceActivity extends AppCompatActivity {
      */
     private void clickBouton() {
 
+        //Au clic du radio bouton ajoute le joueur comme participant de l'activité
         getActiviteSelectione().getParticipants().add(getJoueurSelectionne());
 
+        //Met à jour les données des activités dans l'adaptater
         SpinnerAdapter adapter = spinnerActivity.getAdapter();
         if (adapter instanceof ArrayAdapter) {
             ((ArrayAdapter) adapter).notifyDataSetChanged();
@@ -152,7 +156,7 @@ public class PresenceActivity extends AppCompatActivity {
     }
 
     /**
-     * Retourne l'activité sélctionnée
+     * Retourne l'activité sélectionnée dans le spinner
      * @return Activite
      */
     private Activite getActiviteSelectione() {
@@ -161,7 +165,7 @@ public class PresenceActivity extends AppCompatActivity {
     }
 
     /**
-     * Retourne le joueur sélectionné
+     * Retourne le joueur sélectionné dans le spinner
      * @return Joueur
      */
     private Joueur getJoueurSelectionne() {
@@ -169,14 +173,14 @@ public class PresenceActivity extends AppCompatActivity {
     }
 
     /**
-     *  Change l'état du bouton en fonction de l'activité et du joueur choisi
+     *  Change l'état du bouton radio en fonction de l'activité et du joueur choisi (checked si le joueur participe à l'activité)
      */
     private void mettreAjourBouton() {
         radioButton.setChecked(getActiviteSelectione().getParticipants().contains(getJoueurSelectionne()));
     }
 
     /**
-     *  Change le nom d''activité affiché dans le textView en fonction de l'activité choisie.
+     *  Change le nom d'activité affiché dans le textView en fonction de l'activité choisie.
      */
     private void mettreAjourNomActivite() {
         activiteText.setText(getActiviteSelectione().getTitre());

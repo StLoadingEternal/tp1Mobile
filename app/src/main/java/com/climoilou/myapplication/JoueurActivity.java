@@ -22,7 +22,6 @@ public class JoueurActivity extends AppCompatActivity {
 
     Joueur[] playersTab;
 
-    //La navigation se fait seulement de la vue main vers les autres vues pour le moment. Il faut aussi garder les modifications en mémoire. Ajout de DOC
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +44,7 @@ public class JoueurActivity extends AppCompatActivity {
         ListView listView = findViewById(R.id.listeJoueur);
         listView.setAdapter(adapter);
 
+        //Évènement clic
         listView.setOnItemClickListener((parent, view, position, id) -> {
             Joueur joueur = (Joueur) parent.getItemAtPosition(position);
             new AlertDialog.Builder(this)
